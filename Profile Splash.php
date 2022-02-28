@@ -28,18 +28,27 @@
             <div class="container">
                 <!-- <h1 class="display-1 mb-4 text-primary">Langlearn</h1> -->
                 <p class="display-4 text-dark">Welcome [User]!</p>
-                <a href="html/.html" class="btn btn-primary btn-lg">My Todo List</a> 
+               
 				<a href="html/.html" class="btn btn-primary btn-lg">My Flashcards</a> 
 				<a href="html/.html" class="btn btn-primary btn-lg">My Schedule</a> 
             </div>
         </header>
-        <section id="faq" class="bg-dark text-light pt-5">
-            <div id="faq-header" class="container text-center">
-                <h2 class="display-4 pb-3">Frequently Asked Questions</h2>
-                <p></p>
-            </div>
-        </section>
+       
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4">
+				<h3>Column 1</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+		</div>
+	    </div>
+		</div>
     </main>
+	
+	
+    
+ 
+</div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
