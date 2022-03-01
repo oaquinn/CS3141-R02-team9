@@ -1,9 +1,6 @@
 <?php
-    session_destroy();
     session_start();
     require('db.php');
-    
-
     
     # This is all temporary information that will be removed when we are finished. It just prints the varables that are held by the session and the form
 
