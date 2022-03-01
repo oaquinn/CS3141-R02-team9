@@ -29,8 +29,8 @@
         <a class="navbar-brand " href="index.html">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
-                <a class="btn nav-item nav-link" href="php/login.php">Log In</a>
-                <a class="btn nav-item nav-link" href="php/signup.php">Sign Up</a>
+                <a class="btn nav-item nav-link" href="login.php">Log In</a>
+                <a class="btn nav-item nav-link" href="signup.php">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -39,8 +39,8 @@
             <div class="container">
                 <h1 class="display-1 mb-4 text-primary">Langlearn</h1>
                 <p class="display-4 text-dark">Bringing language teaching into the 21st century</p>
-                <a href="php/login.php" class="btn btn-primary btn-lg">Log In</a>
-                <a href="php/signup.php" class="btn btn-primary btn-lg">Sign Up</a>
+                <a href="login.php" class="btn btn-primary btn-lg">Log In</a>
+                <a href="signup.php" class="btn btn-primary btn-lg">Sign Up</a>
             </div>
         </header>
         <section id="faq" class="bg-dark text-light pt-5">
