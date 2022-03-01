@@ -14,6 +14,7 @@
         if(login($_POST["email"], $_POST["passwd"])){
             # move to the main page
             echo "<p>LOGIN SUCCESSFUL</p>";
+            $_SESSION["email"] = $_POST["email"];
         }else{
             # keep the same page but let the user know that their credentials were wrong
             echo "<p>LOGIN FAILED</P>";
