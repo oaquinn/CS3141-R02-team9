@@ -19,6 +19,8 @@
             }else{
                 echo "<p>This email is already in use</p>";
             }
+        }else{
+            echo "<p>Passwords don't match</p>";
         }
     }
 
