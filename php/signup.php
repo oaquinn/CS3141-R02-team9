@@ -12,7 +12,13 @@
     # If the values are set that means the user is trying to sign up. The passwords are checked to make sure they match and if they do the user is registered.
     if(isset($_POST["email"]) && isset($_POST["passwd1"]) && isset($_POST["passwd2"])){
         if(check($_POST["passwd1"], $_POST["passwd2"])){
-            register($_POST["email"], $_POST["passwd1"]);
+            echo "<p>Passwords match</p>";
+            if(register($_POST["email"], $_POST["passwd1"])){
+                # GO TO THE NEXT PAGE
+                echo "<p>Go to the next page</p>";
+            }else{
+                echo "<p>This email is already in use</p>";
+            }
         }
     }
 
