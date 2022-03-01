@@ -4,7 +4,7 @@
 # CONNECTION - connects to the DB using the proper user
 # return - The instance of the database
 function connect(){
-    $dbh = new PDO("mysq:host=47.6.28.163;dbname=CS3141", "3141", "1234");
+    $dbh = new PDO("mysql:host=47.6.28.163;dbname=CS3141", "3141", "1234");
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $dbh;
 }
