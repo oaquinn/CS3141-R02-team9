@@ -42,7 +42,7 @@
 
     </nav>
 
-    <form class="container" action="signin.php" method="POST">
+    <form class="container" action="signup.php" method="POST">
         <h1 class="display-1 mb-4 text-primary text-center">Sign Up</h1>
         <div class="form-group mt-4 ">
           <label for="exampleInputEmail1">Email address</label>
