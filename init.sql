@@ -1,8 +1,3 @@
-drop Procedure makeAdmin;
-drop Procedure auth;
-drop Procedure checkEmail;
-drop Procedure registerUser;
-
 delimiter //
 # This function is designed to be used by the Database admin to make users admins of the website.
 create procedure makeAdmin ( in temp_email varchar(100) ) 
@@ -32,7 +27,6 @@ create procedure registerUser (
     end; //
 
 delimiter ;
-drop table user;
 # Table of users. PK -  email, password is hash encrypted
 create table user(
 	email varchar(100) primary key,
