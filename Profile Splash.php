@@ -27,10 +27,17 @@
         <header class="text-center  pb-5 bg-light">
             <div class="container">
                 <!-- <h1 class="display-1 mb-4 text-primary">Langlearn</h1> -->
-                <p class="display-4 text-dark">Welcome [User]!</p>
-               
+                <p class="display-4 text-dark">[User]</p>
+				 <img src="img/Flag_of_the_People's_Republic_of_China.svg" class="w3-circle" alt="China_Flag" style="width:10%";> 
+                <p> User since [join date].</p>
+				<p> [friend number] friends. </p>
+				<p> [Total points] points earned. </p>
+				<p> [total sentences] and [total words] learned. </p>
+				<a href="html/.html" class="btn btn-primary btn-lg">Post a status update</a> 
 				<a href="html/.html" class="btn btn-primary btn-lg">My Flashcards</a> 
 				<a href="html/.html" class="btn btn-primary btn-lg">My Schedule</a> 
+				<a href="html/.html" class="btn btn-primary btn-lg">Add/Remove Friend</a> 
+				<a href="html/.html" class="btn btn-primary btn-lg">Advanced Profile Settings</a>
             </div>
         </header>
        
