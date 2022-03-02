@@ -21,7 +21,7 @@ function login($user, $passwd){
         $db = connect();
 
         # If the username and password is in the database it will return 1
-        $stmnt = $db->prepare("SELECT COUNT(*) FROM USER WHERE EMAIL = :user and PASSWD = SHA2(:passwd, 256)");
+        $stmnt = $db->prepare("CALL auth(:user, :passwd)");
 
         # Set the variables 
         $stmnt->bindParam(":user", $user);
@@ -59,7 +59,7 @@ function register($user, $passwd){
         $db = connect();
 
         # This first statement checks the database to make sure that the user is not already registered
-        $stmnt = $db->prepare("SELECT COUNT(EMAIL) FROM USER WHERE EMAIL = :user");
+        $stmnt = $db->prepare("CALL checkEmail(:user)");
 
         # Bind the username
         $stmnt->bindParam(":user", $user);
@@ -75,7 +75,7 @@ function register($user, $passwd){
         }
 
         # Insert the user into the database
-        $stmnt = $db->prepare("INSERT INTO USER VALUES (:user, SHA2(:passwd, 256), 0)");
+        $stmnt = $db->prepare("CALL registerUser(:user, :passwd)");
 
         # Bind the varables
         $stmnt->bindParam(":user", $user);
