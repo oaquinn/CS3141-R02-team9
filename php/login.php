@@ -37,10 +37,10 @@
 </head>
 <body class="">
     <nav class="navbar navbar-dark bg-primary navbar-expand sticky-top">
-        <a class="navbar-brand " href="../index.html">Langlearn</a>
+        <a class="navbar-brand " href="../index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
-                <a class="btn nav-item nav-link" href="html/login.html">Log In</a>
+                <a class="btn nav-item nav-link" href="signup.php">Sign Up</a>
             </div>
         </div>
 
