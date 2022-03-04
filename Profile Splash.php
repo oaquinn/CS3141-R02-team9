@@ -27,7 +27,7 @@
         <header class="text-center  pb-5 bg-light">
             <div class="container">
                 <!-- <h1 class="display-1 mb-4 text-primary">Langlearn</h1> -->
-                <p class="display-4 text-dark">[User]</p>
+                <p class="display-4 text-dark">[User Name]</p>
 				 <img src="img/Flag_of_the_People's_Republic_of_China.svg" class="w3-circle" alt="China_Flag" style="width:10%";> 
                 <p> User since [join date].</p>
 				<p> [friend number] friends. </p>
