@@ -27,6 +27,12 @@
 
 	<h1 class="display-1 mb-4 text-primary text-center">Langlearn Homepage</h1>
 	
+	<header class="text-center  pb-5 ">
+	<div class="profilebutton">
+	<a href="Profile Splash.php" style="align-right" class="btn btn-primary btn-lg" >My Profile</a> 
+	</div>
+	</header>
+	
 
 	<!--- https://bbbootstrap.com/snippets/todo-task-list-badges-71324362 -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -36,7 +42,7 @@
 	<div class="row d-flex justify-content-center container">
 	<div class="row">
 	<div class="column">
-    <div class="col-md-8">
+    <div class="col-md-16">
 	
         <div class="card-hover-shadow-2x mb-3 card">
             <div class="card-header-tab card-header">
@@ -105,11 +111,9 @@
 	
 </div>
 
-<div class="column">
+<div class="column" style="padding-left:150px">
 
-<div class="profilebutton">
-<a href="Profile Splash.php" class="btn btn-primary btn-lg" >My Profile</a> 
-</div>
+
 
 <ul class="list-group">
 	<p></p><p></p>
