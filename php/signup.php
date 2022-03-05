@@ -19,6 +19,7 @@
                 if(register($_POST["email"], $_POST["passwd1"])){
                     # GO TO THE NEXT PAGE
                     echo "<p>Go to the next page</p>";
+                    header('Location: http://localhost/php/MainPage.php');
                 }else{
                     echo "<p>This email is already in use</p>";
                 }
@@ -44,7 +45,7 @@
 </head>
 <body class="">
     <nav class="navbar navbar-dark bg-primary navbar-expand sticky-top">
-        <a class="navbar-brand " href="../index.php">Langlearn</a>
+        <a class="navbar-brand " href="index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
                 <a class="btn nav-item nav-link" href="login.php">Log In</a>

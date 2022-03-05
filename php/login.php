@@ -15,6 +15,7 @@
             # move to the main page
             echo "<p>LOGIN SUCCESSFUL</p>";
             $_SESSION["email"] = $_POST["email"];
+            header('Location: http://localhost/php/MainPage.php');
         }else{
             # keep the same page but let the user know that their credentials were wrong
             echo "<p>LOGIN FAILED</P>";
@@ -37,7 +38,7 @@
 </head>
 <body class="">
     <nav class="navbar navbar-dark bg-primary navbar-expand sticky-top">
-        <a class="navbar-brand " href="../index.php">Langlearn</a>
+        <a class="navbar-brand " href="index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
                 <a class="btn nav-item nav-link" href="signup.php">Sign Up</a>
