@@ -25,7 +25,7 @@
 
 <body class="bg-dark">
     <nav class="navbar navbar-dark bg-primary navbar-expand sticky-top">
-        <a class="navbar-brand " href="index.html">Langlearn</a>
+        <a class="navbar-brand " href="index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
                 <a class="btn nav-item nav-link" href="login.php">Log In</a>
