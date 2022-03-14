@@ -3,11 +3,12 @@
     require('db.php');
     
     # This is all temporary information that will be removed when we are finished. It just prints the varables that are held by the session and the form
-
+    /*
     print_r($_SESSION);
     echo "<br>";
     print_r($_POST);
     echo "<br>";
+    */
 
     # If the values are set that means the user is trying to log in. The user is authenticated then the page will move accordingly.
     if(isset($_POST["email"]) && isset($_POST["passwd"])){
