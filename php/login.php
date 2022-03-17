@@ -9,20 +9,6 @@
     print_r($_POST);
     echo "<br>";
     */
-
-    # If the values are set that means the user is trying to log in. The user is authenticated then the page will move accordingly.
-    if(isset($_POST["email"]) && isset($_POST["passwd"])){
-        if(login($_POST["email"], $_POST["passwd"])){
-            # move to the main page
-            echo "<p>LOGIN SUCCESSFUL</p>";
-            $_SESSION["email"] = $_POST["email"];
-            header('Location: http://localhost/php/MainPage.php');
-        }else{
-            # keep the same page but let the user know that their credentials were wrong
-            echo "<p>LOGIN FAILED</P>";
-        }
-    }
-
 ?>
 
 
@@ -50,6 +36,19 @@
 
     <form class="container" action="login.php" method="POST">
         <h1 class="display-1 mb-4 text-primary text-center">Log In</h1>
+        <h1 class="display-1 mb-4 text-primary text-center"><?php 
+            if(isset($_POST["email"]) && isset($_POST["passwd"])){
+                if(login($_POST["email"], $_POST["passwd"])){
+                    # move to the main page
+                    echo "<p>LOGIN SUCCESSFUL</p>";
+                    $_SESSION["email"] = $_POST["email"];
+                    header('Location: http://localhost/php/MainPage.php');
+                }else{
+                    echo "Login Failed";
+                }
+            }
+        ?></h1>
+
         <div class="form-group mt-4 ">
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
