@@ -13,8 +13,8 @@
     # If the values are set that means the user is trying to sign up. The passwords are checked to make sure they match and if they do the user is registered.
     if(isset($_POST["email"]) && isset($_POST["passwd1"]) && isset($_POST["passwd2"])){
         if(check($_POST["passwd1"], $_POST["passwd2"])){
-            if($_POST["passwd1"] == ""){
-                echo "<p>password cannot be null</p>";
+            if($_POST["passwd1"] == "" || $_POST["email"] == ""){
+                echo "<p>password or email cannot be null</p>";
             }else{
                 if(register($_POST["email"], $_POST["passwd1"])){
                     # GO TO THE NEXT PAGE
@@ -56,6 +56,27 @@
 
     <form class="container" action="signup.php" method="POST">
         <h1 class="display-1 mb-4 text-primary text-center">Sign Up</h1>
+        <h1 class="display-1 mb-4 text-primary text-center">
+            <?php 
+            if(isset($_POST["email"]) && isset($_POST["passwd1"]) && isset($_POST["passwd2"])){
+                if(check($_POST["passwd1"], $_POST["passwd2"])){
+                if($_POST["passwd1"] == "" || $_POST["email"] == ""){
+                    echo "password or email cannot be null";
+                }else{
+                    if(register($_POST["email"], $_POST["passwd1"])){
+                        # GO TO THE NEXT PAGE
+                        header('Location: http://localhost/php/MainPage.php');
+                    }else{
+                        echo "This email is already in use";
+                    }
+                }
+            }else{
+                echo "Passwords don't match";
+            }
+    }
+            ?>
+        </h1>
+
         <div class="form-group mt-4 ">
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
