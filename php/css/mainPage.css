@@ -1,0 +1,9 @@
+#putlogo {
+    position: relative;
+
+}
+
+#putlogo img {
+    width: 300px;
+    height: 300px;
+}

@@ -106,22 +106,9 @@ session_start();
             </div>
 
             <div class="column">
-                <style>
-                    #putlogo {
-                        position: relative;
-
-                    }
-
-                    #putlogo img {
-                        width: 300px;
-                        height: 300px;
-                    }
-                </style>
-
                 <div id="putlogo">
                     <img src="../media/logo.png" />
                 </div>
-
             </div>
 
         </div>
