@@ -36,20 +36,27 @@
 
     <form class="container" action="login.php" method="POST">
         <h1 class="display-1 mb-4 text-primary text-center">Log In</h1>
-        <h1 class="display-1 mb-4 text-primary text-center"><?php 
+        
+
+        <div class="form-group mt-4 ">
+        <p class=""><?php 
             if(isset($_POST["email"]) && isset($_POST["passwd"])){
                 if(login($_POST["email"], $_POST["passwd"])){
                     # move to the main page
-                    echo "<p>LOGIN SUCCESSFUL</p>";
+                    echo "<div class=\"alert alert-success\" role=\"alert\">
+                    <h4 class=\"alert-heading\">Login Successful</h4>
+                  </div>";
                     $_SESSION["email"] = $_POST["email"];
                     header('Location: http://localhost/php/MainPage.php');
                 }else{
-                    echo "Login Failed";
+                    echo "<div class=\"alert alert-danger\" role=\"alert\">
+                    <h4 class=\"alert-heading\">Login Failed</h4>
+                    <hr>
+                    <p>There was a problem logging in. Check your email and password or create an account.</p>
+                  </div>";
                 }
             }
-        ?></h1>
-
-        <div class="form-group mt-4 ">
+        ?></p>
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>

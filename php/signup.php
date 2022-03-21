@@ -43,17 +43,23 @@
             if(isset($_POST["email"]) && isset($_POST["passwd1"]) && isset($_POST["passwd2"])){
                 if(check($_POST["passwd1"], $_POST["passwd2"])){
                 if($_POST["passwd1"] == "" || $_POST["email"] == ""){
-                    echo "password or email cannot be null";
+                    echo "<div class=\"alert alert-warning\" role=\"alert\">
+                    <h4 class=\"alert-heading\">Password or email cannot be null</h4>
+                  </div>";
                 }else{
                     if(register($_POST["email"], $_POST["passwd1"])){
                         # GO TO THE NEXT PAGE
                         header('Location: http://localhost/php/MainPage.php');
                     }else{
-                        echo "This email is already in use";
+                        echo "<div class=\"alert alert-warning\" role=\"alert\">
+                        <h4 class=\"alert-heading\">This email is already in use</h4>
+                      </div>";
                     }
                 }
             }else{
-                echo "Passwords don't match";
+                echo "<div class=\"alert alert-warning\" role=\"alert\">
+                <h4 class=\"alert-heading\">Passwords don't match</h4>
+              </div>";
             }
     }
             ?>
