@@ -1,11 +1,5 @@
 <?php
     session_start();
-
-    
-
-
-
-
 ?>
 
 <html lang="en">
@@ -174,7 +168,7 @@
 <h2> Notifications </h2>
 <ul class="list-group">
   <li class="list-group-item d-flex justify-content-between align-items-center">
-    Welcome to Langlearn!
+    Welcome to Langlearn!8
   </li>
 </ul>
 
