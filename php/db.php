@@ -20,23 +20,38 @@ function login($user, $passwd){
         # Connect to the database
         $db = connect();
 
-        # If the username and password is in the database it will return 1
-        $stmnt = $db->prepare("CALL auth(:user, :passwd)");
-
-        # Set the variables 
+        $stmnt = $db->prepare("CALL checkUserEmail(:user)");
         $stmnt->bindParam(":user", $user);
-        $stmnt->bindParam(":passwd", $passwd);
-        
-        # Execute the statement
+
         $stmnt->execute();
 
-        # Resultet -> $rs. This is an array of the return values
         $rs = $stmnt->fetch();
 
-        # The result set for this query is going to return an array [x] where x is the number of times that username and password combo is in the database
-        
-        # If the number is 1 we know the user is valid, if it is 0 then the user is not valid.
-        return $rs[0];
+        if($rs[0] == 1){
+            $stmnt = $db->prepare("CALL userAuth(:user, :passwd)");
+
+            $stmnt->bindParam(":user", $user);
+            $stmnt->bindParam(":passwd", $passwd);
+
+            $stmnt->execute();
+
+            $rs = $stmnt->fetch();
+
+            return $rs[0];
+        }else{
+            $stmnt = $db->prepare("CALL teacherAuth(:user, :passwd)");
+
+            $stmnt->bindParam(":user", $user);
+            $stmnt->bindParam(":passwd", $passwd);
+
+            $stmnt->execute();
+
+            $rs = $stmnt->fetch();
+
+            return $rs[0];
+        }
+
+        return -1;
         
 
     }catch(PDOException $e){ # 
@@ -59,7 +74,7 @@ function register($user, $passwd){
         $db = connect();
 
         # This first statement checks the database to make sure that the user is not already registered
-        $stmnt = $db->prepare("CALL checkEmail(:user)");
+        $stmnt = $db->prepare("CALL checkUserEmail(:user)");
 
         # Bind the username
         $stmnt->bindParam(":user", $user);
