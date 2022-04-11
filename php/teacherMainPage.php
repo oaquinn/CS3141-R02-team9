@@ -1,16 +1,6 @@
 <?php
     session_start();
     require('db.php');
-    print_r($_SESSION);
-/*
-        <label for="crn">Enter CRN:</label>
-        <input type="text" id="crn" name="crn"><br>
-        <label for="fileName">Enter File Name:</label>
-        <input type="text" id="fileName" name="fileName"><br>
-        <label for="url">Enter URL:</label>
-        <input type="text" id="url" name="url"><br>
-        <input type="submit" name="submit">
-*/
 
 if(isset($_POST['submit'])){
     if($_POST['crn'] != '' && $_POST['fileName'] != '' & $_POST['url'] != ''){

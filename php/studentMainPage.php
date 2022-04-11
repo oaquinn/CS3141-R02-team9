@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('db.php');
 ?>
 
 <html lang="en">
@@ -43,39 +44,7 @@ session_start();
                                 <div style="position: static;" class="ps ps--active-y">
                                     <div class="ps-content">
                                         <ul class=" list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left mr-2">
-                                                            <div class="custom-checkbox custom-control"> <input class="custom-control-input" id="exampleCustomCheckbox12" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label> </div>
-                                                        </div>
-                                                        <div class="widget-content-left">
-                                                            <div class="widget-heading">Practice tones<div class="badge btn-outline-success">Done</div>
-                                                            </div>
-                                                            <div class="widget-subheading"><i>By Teacher</i></div>
-                                                        </div>
-                                                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="todo-indicator bg-focus"></div>
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left mr-2">
-                                                            <div class="custom-checkbox custom-control"><input class="custom-control-input" id="exampleCustomCheckbox1" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label></div>
-                                                        </div>
-                                                        <div class="widget-content-left">
-                                                            <div class="widget-heading">Review 一边。。。一边。。。 sentence structure</div>
-                                                            <div class="widget-subheading">
-                                                                <div>By Me <div class="badge badge-pill badge-info ml-2">New</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            <?php printTasks($_SESSION['email']); ?>
                                         </ul>
                                     </div>
                                 </div>

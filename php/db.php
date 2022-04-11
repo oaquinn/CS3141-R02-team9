@@ -166,4 +166,55 @@ function addAssignment($CRN, $name, $url, $email){
     }
 }
 
+function printTasks($email){
+
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getStudentCourses(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        foreach($rs as &$row){
+            $stmnt = $db->prepare("CALL getStudentAssignment(:CRN)");
+            
+            $stmnt->bindParam(":CRN", $row['CRN']);
+
+            $stmnt->execute();
+
+            $as = $stmnt->fetchAll();
+
+            foreach($as as &$innerRow){
+                echo '<li class="list-group-item">
+                <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                            </div>
+                            <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
+                        </div>
+                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
+                    </div>
+                </div>
+            </li>';
+
+            }
+            unset($innerRow);
+        }
+        unset($row);
+
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage(); 
+        return 0;
+    }
+}
+
 ?>
