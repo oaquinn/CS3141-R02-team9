@@ -1,5 +1,19 @@
 <?php
-session_start();
+    session_start();
+    require('db.php');
+
+if(isset($_POST['submit'])){
+    if($_POST['crn'] != '' && $_POST['fileName'] != '' & $_POST['url'] != ''){
+        if(addAssignment($_POST['crn'], $_POST['fileName'], $_POST['url'], $_SESSION['email'])){
+            print "success";
+        }else{
+            print "failure";
+        }
+    }else{
+        print "cant enter null";
+    }
+}
+
 ?>
 
 <html lang="en">
@@ -13,7 +27,13 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="css/mainPage.css">
 </head>
-
+<style>
+#uploadform {
+  border:  thin solid grey;
+padding: 20px;
+border-radius: 5px;
+}
+</style>
 <body class="">
     <nav class="navbar navbar-dark bg-primary navbar-expand sticky-top">
         <a class="navbar-brand " href="index.php">Langlearn</a>
@@ -109,15 +129,26 @@ session_start();
         </div>
         <div class="container">
     <h2 class="display-5 mb-4">Upload Content</h2>
+
     <section>
+
       <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupFileAddon01">Upload Content</span>
+      
+        <div id = "uploadform">
+        
+          <!-- Select & Upload Button -->
+    <form  method="post" action="teacherMainPage.php">
+        <label for="crn">Enter CRN:</label>
+        <input type="text" id="crn" name="crn"><br>
+        <label for="fileName">Enter File Name:</label>
+        <input type="text" id="fileName" name="fileName"><br>
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url"><br>
+        <input type="submit" name="submit">
+        </form>
+          
         </div>
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-        </div>
+
       </div>
   </div>
   <div class="">
