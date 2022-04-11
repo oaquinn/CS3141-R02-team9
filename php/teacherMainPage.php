@@ -1,5 +1,29 @@
 <?php
-session_start();
+    session_start();
+    require('db.php');
+    print_r($_SESSION);
+/*
+        <label for="crn">Enter CRN:</label>
+        <input type="text" id="crn" name="crn"><br>
+        <label for="fileName">Enter File Name:</label>
+        <input type="text" id="fileName" name="fileName"><br>
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url"><br>
+        <input type="submit" name="submit">
+*/
+
+if(isset($_POST['submit'])){
+    if($_POST['crn'] != '' && $_POST['fileName'] != '' & $_POST['url'] != ''){
+        if(addAssignment($_POST['crn'], $_POST['fileName'], $_POST['url'], $_SESSION['email'])){
+            print "success";
+        }else{
+            print "failure";
+        }
+    }else{
+        print "cant enter null";
+    }
+}
+
 ?>
 
 <html lang="en">
@@ -123,14 +147,14 @@ border-radius: 5px;
         <div id = "uploadform">
         
           <!-- Select & Upload Button -->
-    <form  method="GET" action="form.php">
+    <form  method="post" action="teacherMainPage.php">
         <label for="crn">Enter CRN:</label>
         <input type="text" id="crn" name="crn"><br>
         <label for="fileName">Enter File Name:</label>
         <input type="text" id="fileName" name="fileName"><br>
         <label for="url">Enter URL:</label>
         <input type="text" id="url" name="url"><br>
-        <input type="submit" value="Submit">
+        <input type="submit" name="submit">
         </form>
           
         </div>

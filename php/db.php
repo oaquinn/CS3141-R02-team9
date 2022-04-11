@@ -39,6 +39,7 @@ function login($user, $passwd){
 
             return $rs[0];
         }else{
+
             $stmnt = $db->prepare("CALL teacherAuth(:user, :passwd)");
 
             $stmnt->bindParam(":user", $user);
@@ -48,7 +49,7 @@ function login($user, $passwd){
 
             $rs = $stmnt->fetch();
 
-            return $rs[0];
+            if($rs[0]) return 2;
         }
 
         return -1;
@@ -125,6 +126,44 @@ function check($passwd1, $passwd2){
         return 0;
     }
 
+}
+
+function addAssignment($CRN, $name, $url, $email){
+
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL validCRN(:CRN, :email)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetch();
+
+        if($rs[0]){
+            $stmnt = $db->prepare("CALL addAssignment(:CRN, :fileName, :url)");
+            
+            $stmnt->bindParam(":CRN", $CRN);
+            $stmnt->bindParam(":fileName", $name);
+            $stmnt->bindParam(":url", $url);
+
+            $stmnt->execute();
+
+            return 1;
+
+        }else{
+            print "Please enter a CRN to a course you are teaching";
+            return -1;
+        }
+
+        return -1;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
 }
 
 ?>

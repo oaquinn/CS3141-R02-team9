@@ -41,13 +41,17 @@
         <div class="form-group mt-4 ">
         <p class=""><?php 
             if(isset($_POST["email"]) && isset($_POST["passwd"])){
-                if(login($_POST["email"], $_POST["passwd"])){
+                $loginStatus = login($_POST["email"], $_POST["passwd"]);
+                if($loginStatus == 1){
                     # move to the main page
                     echo "<div class=\"alert alert-success\" role=\"alert\">
                     <h4 class=\"alert-heading\">Login Successful</h4>
                   </div>";
-                    $_SESSION["email"] = $_POST["email"];
-                    header('Location: http://localhost/CS3141-R02-team9/php/MainPage.php');
+                    $_SESSION['email'] = $_POST['email'];
+                    header('Location: http://localhost/php/studentMainPage.php');
+                }else if($loginStatus == 2){
+                    $_SESSION['email'] = $_POST['email'];
+                    header('Location: http://localhost/php/teacherMainPage.php');
                 }else{
                     echo "<div class=\"alert alert-danger\" role=\"alert\">
                     <h4 class=\"alert-heading\">Login Failed</h4>
