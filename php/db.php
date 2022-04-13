@@ -180,6 +180,10 @@ function printTasks($email){
 
         $rs = $stmnt->fetchAll();
 
+        $stmnt->closeCursor();
+
+        $completeCheck = $db->prepare("CALL checkCompleted(:CRN, :email)");
+
         foreach($rs as &$row){
             $stmnt = $db->prepare("CALL getStudentAssignment(:CRN)");
             
@@ -189,24 +193,50 @@ function printTasks($email){
 
             $as = $stmnt->fetchAll();
 
-            foreach($as as &$innerRow){
-                echo '<li class="list-group-item">
-                <div class="widget-content p-0">
-                    <div class="widget-content-wrapper">
-                        <div class="widget-content-left">
-                            <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
-                            </div>
-                            <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
-                        </div>
-                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                    </div>
-                </div>
-            </li>';
+            $stmnt->closeCursor();
 
+            $completeCheck->bindParam(":CRN", $row['CRN']);
+            $completeCheck->bindParam(":email", $_SESSION['email']);
+
+            $completeCheck->execute();
+
+            $cc = $completeCheck->fetchAll();
+
+            $completeCheck->closeCursor();
+
+            foreach($as as &$innerRow){
+                if(isset($cc[0])){
+                    if(!in_array($innerRow['name'], $cc[0])){
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                    }
+                }else{
+                    echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                }
             }
             unset($innerRow);
         }
         unset($row);
+        unset($cc);
 
 
         return 0;
@@ -217,4 +247,119 @@ function printTasks($email){
     }
 }
 
+
+function printSubmit($email){
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getStudentCourses(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $completeCheck = $db->prepare("CALL checkCompleted(:CRN, :email)");
+
+        foreach($rs as &$row){
+            $stmnt = $db->prepare("CALL getStudentAssignment(:CRN)");
+            
+            $stmnt->bindParam(":CRN", $row['CRN']);
+
+            $stmnt->execute();
+
+            $as = $stmnt->fetchAll();
+
+            $stmnt->closeCursor();
+
+            $completeCheck->bindParam(":CRN", $row['CRN']);
+            $completeCheck->bindParam(":email", $_SESSION['email']);
+
+            $completeCheck->execute();
+
+            $cc = $completeCheck->fetchAll();
+
+            $completeCheck->closeCursor();
+
+            foreach($as as &$innerRow){
+                if(isset($cc[0])){
+                    if(!in_array($innerRow['name'], $cc[0])){
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="submit.php" method="post">
+                                            <input type="text" name="link">
+                                            <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                    }
+                }else{
+                    echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="submit.php" method="post">
+                                            <input type="text" name="link">
+                                            <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                }
+            }
+            
+            unset($innerRow);
+        }
+        unset($row);
+        unset($cc);
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage(); 
+        return 0;
+    }
+}
+
+function submitAssignment($CRN, $email, $name, $link){
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL submitAssignment(:CRN, :name, :email, :link)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+
+        $stmnt->bindParam(":name", $name);
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->bindParam(":link", $link);
+
+        $stmnt->execute();
+
+        return 1;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
 ?>
