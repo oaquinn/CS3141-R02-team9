@@ -1,3 +1,21 @@
+<?php
+
+    session_start();
+
+    require('db.php');
+
+    print_r($_POST);
+    if(isset($_POST['submit'])){
+        if(addStudentClass($_SESSION['email'], $_POST['CRN'])){
+            echo 'Success';
+        }else{
+            echo 'Please enter a valid CRN';
+        }
+    }
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,12 +42,12 @@
             <h1 class="display-5 mb-4">Regester for Course</h1>
         </header>
         <main class="">
-            <form action="">
+            <form action="regestration.php" method="POST">
                 <div>
-                    <input type="number" min="1000" placeholder="Enter CRN">
+                    <input type="number" min="1000" placeholder="Enter CRN" name="CRN">
                 </div>
                 <div class="mt-3">
-                    <input class="btn btn-success" type="submit" value="Register">
+                    <input class="btn btn-success" type="submit" name="submit" value="Register">
                     <a href="./studentMainPage.php" class="btn btn-danger">Cancel</a>
                 </div>
 

@@ -416,4 +416,38 @@ function printGrading($email){
         return 0;
     }
 }
+
+function addStudentClass($email, $CRN){
+    try{
+        $db = connect();
+
+        $validCRN = $db->prepare("SELECT COUNT(*) FROM course where CRN = :CRN");
+
+        $validCRN->bindParam(":CRN", $CRN);
+
+        $validCRN->execute();
+
+        $rs = $validCRN->fetchAll();
+
+        $validCRN->closeCursor();
+
+        if($rs[0] == 1){
+            $stmnt = $db->prepare("CALL addStudentClass(:CRN, :email)");
+
+            $stmnt->bindParam(":CRN", $CRN);
+
+            $stmnt->bindParam(":email", $email);
+
+            $stmnt->execute();
+
+            return 1;
+        }
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
 ?>
