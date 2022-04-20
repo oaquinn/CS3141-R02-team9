@@ -49,7 +49,7 @@
                 }else{
                     if(register($_POST["email"], $_POST["passwd1"])){
                         # GO TO THE NEXT PAGE
-                        header('Location: http://localhost/php/MainPage.php');
+                        header('Location: http://localhost/CS3141-R02-team9/php/MainPage.php');
                     }else{
                         echo "<div class=\"alert alert-warning\" role=\"alert\">
                         <h4 class=\"alert-heading\">This email is already in use</h4>

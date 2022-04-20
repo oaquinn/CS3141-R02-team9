@@ -20,23 +20,39 @@ function login($user, $passwd){
         # Connect to the database
         $db = connect();
 
-        # If the username and password is in the database it will return 1
-        $stmnt = $db->prepare("CALL auth(:user, :passwd)");
-
-        # Set the variables 
+        $stmnt = $db->prepare("CALL checkUserEmail(:user)");
         $stmnt->bindParam(":user", $user);
-        $stmnt->bindParam(":passwd", $passwd);
-        
-        # Execute the statement
+
         $stmnt->execute();
 
-        # Resultet -> $rs. This is an array of the return values
         $rs = $stmnt->fetch();
 
-        # The result set for this query is going to return an array [x] where x is the number of times that username and password combo is in the database
-        
-        # If the number is 1 we know the user is valid, if it is 0 then the user is not valid.
-        return $rs[0];
+        if($rs[0] == 1){
+            $stmnt = $db->prepare("CALL userAuth(:user, :passwd)");
+
+            $stmnt->bindParam(":user", $user);
+            $stmnt->bindParam(":passwd", $passwd);
+
+            $stmnt->execute();
+
+            $rs = $stmnt->fetch();
+
+            return $rs[0];
+        }else{
+
+            $stmnt = $db->prepare("CALL teacherAuth(:user, :passwd)");
+
+            $stmnt->bindParam(":user", $user);
+            $stmnt->bindParam(":passwd", $passwd);
+
+            $stmnt->execute();
+
+            $rs = $stmnt->fetch();
+
+            if($rs[0]) return 2;
+        }
+
+        return -1;
         
 
     }catch(PDOException $e){ # 
@@ -59,7 +75,7 @@ function register($user, $passwd){
         $db = connect();
 
         # This first statement checks the database to make sure that the user is not already registered
-        $stmnt = $db->prepare("CALL checkEmail(:user)");
+        $stmnt = $db->prepare("CALL checkUserEmail(:user)");
 
         # Bind the username
         $stmnt->bindParam(":user", $user);
@@ -112,4 +128,292 @@ function check($passwd1, $passwd2){
 
 }
 
+function addAssignment($CRN, $name, $url, $email){
+
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL validCRN(:CRN, :email)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetch();
+
+        if($rs[0]){
+            $stmnt = $db->prepare("CALL addAssignment(:CRN, :fileName, :url)");
+            
+            $stmnt->bindParam(":CRN", $CRN);
+            $stmnt->bindParam(":fileName", $name);
+            $stmnt->bindParam(":url", $url);
+
+            $stmnt->execute();
+
+            return 1;
+
+        }else{
+            print "Please enter a CRN to a course you are teaching";
+            return -1;
+        }
+
+        return -1;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+
+function printTasks($email){
+
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getStudentCourses(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $completeCheck = $db->prepare("CALL checkCompleted(:CRN, :email)");
+
+        foreach($rs as &$row){
+            $stmnt = $db->prepare("CALL getStudentAssignment(:CRN)");
+            
+            $stmnt->bindParam(":CRN", $row['CRN']);
+
+            $stmnt->execute();
+
+            $as = $stmnt->fetchAll();
+
+            $stmnt->closeCursor();
+
+            $completeCheck->bindParam(":CRN", $row['CRN']);
+            $completeCheck->bindParam(":email", $_SESSION['email']);
+
+            $completeCheck->execute();
+
+            $cc = $completeCheck->fetchAll();
+
+            $completeCheck->closeCursor();
+
+            foreach($as as &$innerRow){
+                if(count($cc)){
+                    $check = 1;
+                    foreach($cc as &$sub){
+                        if(in_array($innerRow['name'], $sub)){
+                            $check = 0;
+                        }
+                    }
+                    if($check){
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                    }
+                }else{
+                    echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading"><a href="' . $innerRow['link'] . '">Link to Assignment</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                }
+            }
+            unset($innerRow);
+        }
+        unset($row);
+        unset($cc);
+
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage(); 
+        return 0;
+    }
+}
+
+
+function printSubmit($email){
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getStudentCourses(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $completeCheck = $db->prepare("CALL checkCompleted(:CRN, :email)");
+
+        foreach($rs as &$row){
+            $stmnt = $db->prepare("CALL getStudentAssignment(:CRN)");
+            
+            $stmnt->bindParam(":CRN", $row['CRN']);
+
+            $stmnt->execute();
+
+            $as = $stmnt->fetchAll();
+
+            $stmnt->closeCursor();
+
+            $completeCheck->bindParam(":CRN", $row['CRN']);
+            $completeCheck->bindParam(":email", $_SESSION['email']);
+
+            $completeCheck->execute();
+
+            $cc = $completeCheck->fetchAll();
+
+            $completeCheck->closeCursor();
+
+            foreach($as as &$innerRow){
+                if(count($cc)){
+                    $check = 1;
+                    foreach($cc as &$sub){
+                        if(in_array($innerRow['name'], $sub)){
+                            $check = 0;
+                        }
+                    }
+                    if($check){
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="submit.php" method="post">
+                                            <input type="text" name="' . $innerRow['name'] . '">
+                                            <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                    }
+                }else{
+                    echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $innerRow['CRN'] . ': ' . $innerRow['name'] . '
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="submit.php" method="post">
+                                            <input type="text" name="' . $innerRow['name'] . '">
+                                            <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
+                }
+            }
+            
+            unset($innerRow);
+        }
+        unset($row);
+        unset($cc);
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage(); 
+        return 0;
+    }
+}
+
+function submitAssignment($CRN, $email, $name, $link){
+    try{
+
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL submitAssignment(:CRN, :email, :name, :link)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+
+        $stmnt->bindParam(":name", $name);
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->bindParam(":link", $link);
+
+        $stmnt->execute();
+
+        return 1;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+
+function printGrading($email){
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getTeacherCRN(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $crn = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $stmnt = $db->prepare("CALL getCompleted(:CRN)");
+
+        foreach($crn as &$class){
+            $stmnt->bindParam(":CRN", $class['CRN']);
+
+            $stmnt->execute();
+
+            $completed = $stmnt->fetchAll();
+
+            $stmnt->closeCursor();
+
+            if(count($completed)){
+                foreach($completed as &$grade){
+                    if($grade['points'] == NULL){
+                        
+                    }
+                }
+            }
+        }
+
+
+
+    }catch(PDOException $e){
+        print "Error: " .  $e->getMessage();
+        return 0;
+    }
+}
 ?>
