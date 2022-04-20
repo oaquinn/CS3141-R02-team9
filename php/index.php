@@ -1,13 +1,4 @@
-<?php
-    /*
-    session_start();
-    print_r($_SESSION);
-    echo "<br>";
-    print_r($_POST);
-    echo "<br>";
-    */
-
-?>
+<?php session_start(); ?>
 
 
 <html lang="en">

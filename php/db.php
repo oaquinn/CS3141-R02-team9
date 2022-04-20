@@ -205,8 +205,14 @@ function printTasks($email){
             $completeCheck->closeCursor();
 
             foreach($as as &$innerRow){
-                if(isset($cc[0])){
-                    if(!in_array($innerRow['name'], $cc[0])){
+                if(count($cc)){
+                    $check = 1;
+                    foreach($cc as &$sub){
+                        if(in_array($innerRow['name'], $sub)){
+                            $check = 0;
+                        }
+                    }
+                    if($check){
                         echo '<li class="list-group-item">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
@@ -286,8 +292,14 @@ function printSubmit($email){
             $completeCheck->closeCursor();
 
             foreach($as as &$innerRow){
-                if(isset($cc[0])){
-                    if(!in_array($innerRow['name'], $cc[0])){
+                if(count($cc)){
+                    $check = 1;
+                    foreach($cc as &$sub){
+                        if(in_array($innerRow['name'], $sub)){
+                            $check = 0;
+                        }
+                    }
+                    if($check){
                         echo '<li class="list-group-item">
                         <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
@@ -296,7 +308,7 @@ function printSubmit($email){
                                     </div>
                                     <div class="widget-subheading">
                                         <form action="submit.php" method="post">
-                                            <input type="text" name="link">
+                                            <input type="text" name="' . $innerRow['name'] . '">
                                             <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
                                         </form>
                                     </div>
@@ -314,7 +326,7 @@ function printSubmit($email){
                                     </div>
                                     <div class="widget-subheading">
                                         <form action="submit.php" method="post">
-                                            <input type="text" name="link">
+                                            <input type="text" name="' . $innerRow['name'] . '">
                                             <button type="submit" name="submit" value="CRN=' . $innerRow['CRN'] . '&name=' . $innerRow['name'] . '">Submit</button>
                                         </form>
                                     </div>
@@ -343,7 +355,7 @@ function submitAssignment($CRN, $email, $name, $link){
 
         $db = connect();
 
-        $stmnt = $db->prepare("CALL submitAssignment(:CRN, :name, :email, :link)");
+        $stmnt = $db->prepare("CALL submitAssignment(:CRN, :email, :name, :link)");
 
         $stmnt->bindParam(":CRN", $CRN);
 
@@ -359,6 +371,48 @@ function submitAssignment($CRN, $email, $name, $link){
 
     }catch(PDOException $e){
         print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+
+function printGrading($email){
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL getTeacherCRN(:email)");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $crn = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $stmnt = $db->prepare("CALL getCompleted(:CRN)");
+
+        foreach($crn as &$class){
+            $stmnt->bindParam(":CRN", $class['CRN']);
+
+            $stmnt->execute();
+
+            $completed = $stmnt->fetchAll();
+
+            $stmnt->closeCursor();
+
+            if(count($completed)){
+                foreach($completed as &$grade){
+                    if($grade['points'] == NULL){
+                        
+                    }
+                }
+            }
+        }
+
+
+
+    }catch(PDOException $e){
+        print "Error: " .  $e->getMessage();
         return 0;
     }
 }
