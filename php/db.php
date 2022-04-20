@@ -430,8 +430,9 @@ function addStudentClass($email, $CRN){
         $rs = $validCRN->fetchAll();
 
         $validCRN->closeCursor();
+        
+        if($rs[0]){
 
-        if($rs[0] == 1){
             $stmnt = $db->prepare("CALL addStudentClass(:CRN, :email)");
 
             $stmnt->bindParam(":CRN", $CRN);

@@ -4,13 +4,12 @@
 
     require('db.php');
 
+
+    print_r($_SESSION);
+
     print_r($_POST);
     if(isset($_POST['submit'])){
-        if(addStudentClass($_SESSION['email'], $_POST['CRN'])){
-            echo 'Success';
-        }else{
-            echo 'Please enter a valid CRN';
-        }
+        addStudentClass($_SESSION['email'], $_POST['CRN']);
     }
     
 
