@@ -1,18 +1,11 @@
 <?php
     require('db.php');
     session_start();
-    echo 'Session: ';
-    print_r($_SESSION);
-    echo '<br>';
-    echo 'Post: ';
-    print_r($_POST);
-    echo '<br>';
 
     if(isset($_POST['submit'])){
         parse_str($_POST['submit'], $value);
-        if($_POST['link'] != ''){
-            submitAssignment($value['CRN'], $_SESSION['email'], $value['name'], $_POST['link']);
-            header('Location: http://localhost/php/submit.php');
+        if($_POST[$value['name']] != ''){
+            submitAssignment($value['CRN'], $_SESSION['email'], $value['name'], $_POST[$value['name']]);
         }else{
             echo 'link cannot be null';
         }

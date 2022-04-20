@@ -2,6 +2,8 @@
     session_start();
     require('db.php');
 
+    printGrading($_SESSION['email']);
+
 if(isset($_POST['submit'])){
     if($_POST['crn'] != '' && $_POST['fileName'] != '' & $_POST['url'] != ''){
         if(addAssignment($_POST['crn'], $_POST['fileName'], $_POST['url'], $_SESSION['email'])){
@@ -62,6 +64,18 @@ border-radius: 5px;
                                 <div style="position: static;" class="ps ps--active-y">
                                     <div class="ps-content">
                                         <ul class=" list-group list-group-flush">
+                                            <?php
+                                            ?>
+
+
+
+
+
+
+
+
+
+                                            <!--
                                             <li class="list-group-item">
                                                 <div class="widget-content p-0">
                                                     <div class="widget-content-wrapper">
@@ -95,6 +109,7 @@ border-radius: 5px;
                                                     </div>
                                                 </div>
                                             </li>
+                                            -->
                                         </ul>
                                     </div>
                                 </div>
