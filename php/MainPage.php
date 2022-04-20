@@ -26,8 +26,8 @@ session_start();
     <div id="page-container" class="container">
         <header class="pb-5 pt-5">
             <h1 class="display-5 mb-4">My Homepage</h1>
-            <a href="Profile Splash.php" class="btn btn-primary btn-lg">My Profile</a>
-			<a href="../html/Decks.html" class="btn btn-primary btn-lg">My Anki Decks</a>
+            <a href="Profile Splash.php" class="btn btn-primary btn-lg">Upload</a>
+			<a href="../html/Decks.html" class="btn btn-primary btn-lg">Leaderboard</a>
         </header>
 
         <!--- Source code for To-Do List: https://bbbootstrap.com/snippets/todo-task-list-badges-71324362 -->
