@@ -29,6 +29,7 @@ require('db.php');
             <h1 class="display-5 mb-4">My Homepage</h1>
             <a href="Profile Splash.php" class="btn btn-primary btn-lg">My Profile</a>
 			<a href="./submit.php" class="btn btn-primary btn-lg">Submit</a>
+            <a href="./regestration.php" class="btn btn-primary btn-lg">Register for Course</a>
         </header>
 
         <!--- Source code for To-Do List: https://bbbootstrap.com/snippets/todo-task-list-badges-71324362 -->
