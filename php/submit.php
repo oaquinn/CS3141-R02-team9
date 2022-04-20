@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
         </div>
     </nav>
     <main class="container">
-    <h1 class="display-5 mb-4">Submit</h1>
+    <h1 class="display-5 mb-4 pt-5">Submit</h1>
         <ul class=" list-group list-group-flush">
             <?php printSubmit($_SESSION['email']); ?>
         </ul>
