@@ -10,16 +10,6 @@
             echo 'link cannot be null';
         }
     }
-
-if (isset($_POST['submit'])) {
-    parse_str($_POST['submit'], $value);
-    if ($_POST['link'] != '') {
-        submitAssignment($value['CRN'], $_SESSION['email'], $value['name'], $_POST['link']);
-        header('Location: http://localhost/php/submit.php');
-    } else {
-        echo 'link cannot be null';
-    }
-}
 ?>
 <html lang="en">
 
