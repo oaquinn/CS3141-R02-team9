@@ -403,7 +403,22 @@ function printGrading($email){
             if(count($completed)){
                 foreach($completed as &$grade){
                     if($grade['points'] == NULL){
-                        
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $grade['CRN'] . ': ' . $grade['name'] . '<br><a href="' . $grade['link'] . '">Link to Assignment</a>
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="teacherMainPage.php" method="post">
+                                            <input type="text" name="' . $grade['name'] . '">
+                                            <button type="submit" name="gradeSubmit" value="CRN=' . $grade['CRN'] . '&name=' . $grade['name'] . '&email=' . $grade['email'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
                     }
                 }
             }
@@ -485,6 +500,28 @@ function generateLeaderboard($email){
             }
         }
 
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+function gradeAssignment($CRN, $email, $points, $name){
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL gradeAssignment(:CRN, :email, :points, :name)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->bindParam(":points", $points);
+
+        $stmnt->bindParam(":name", $name);
+
+        $stmnt->execute();
+
+        return 1;
     }catch(PDOException $e){
         print "Error: " . $e->getMessage();
         return 0;
