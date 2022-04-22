@@ -20,7 +20,9 @@ require('db.php');
         <a class="navbar-brand " href="index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
-                <a class="btn nav-item nav-link" href="login.php">Sign Out</a>
+                <form action="index.php" method="post">
+                    <input class="btn nav-item nav-link" type="submit" name="Sign Out" value="Sign Out">
+                </form>
             </div>
         </div>
     </nav>
