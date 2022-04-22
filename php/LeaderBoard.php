@@ -1,3 +1,7 @@
+<?php 
+    session_start();
+    require('db.php');
+?>
 <html lang="en">
 
 <!---     Matthew is working on this!!   -->
@@ -29,13 +33,10 @@
 			
 			<div id="Leaderboard" class="column" align="center" style="width: 400px; height: 300px;">
                 <ul class="list-group">
-                    <p></p>
-                    <p></p>
                     <p style="text-align:center;"><b>Leaderboard</b></p>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        name@email.com
-                        <span>score</span>
-                    </li>
+                    <?php
+                        generateLeaderboard($_SESSION['email']);
+                    ?>
                 </ul>
             </div>
 			

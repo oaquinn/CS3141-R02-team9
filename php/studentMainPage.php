@@ -27,7 +27,7 @@ require('db.php');
     <div id="page-container" class="container">
         <header class="pb-5 pt-5">
             <h1 class="display-5 mb-4">My Homepage</h1>
-            <a href="Profile Splash.php" class="btn btn-primary btn-lg">My Profile</a>
+            <a href="./LeaderBoard.php" class="btn btn-primary btn-lg">LeaderBoard</a>
 			<a href="./submit.php" class="btn btn-primary btn-lg">Submit</a>
             <a href="./regestration.php" class="btn btn-primary btn-lg">Register for Course</a>
         </header>
@@ -51,31 +51,9 @@ require('db.php');
                                 </div>
                             </perfect-scrollbar>
                         </div>
-                        <div class="d-block text-right card-footer"><button class="mr-2 btn btn-link btn-sm">Cancel</button><button class="btn btn-primary">Add Task</button></div>
                     </div>
                 </div>
             </div>
-            <!--
-            <div id="friends" class="column">
-                <ul class="list-group">
-                    <p></p>
-                    <p></p>
-                    <p style="text-align:center;"><b>Friends</b></p>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Fred
-                        <span class="badge badge-primary badge-pill">14</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Samantha
-                        <span class="badge badge-primary badge-pill">2</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Zhang
-                        <span class="badge badge-primary badge-pill">1</span>
-                    </li>
-                </ul>
-            </div>
-        -->
 
             <div class="column">
                 <div id="putlogo">

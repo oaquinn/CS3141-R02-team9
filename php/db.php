@@ -451,4 +451,43 @@ function addStudentClass($email, $CRN){
         return 0;
     }
 }
+
+function generateLeaderboard($email){
+
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("SELECT CRN FROM takes WHERE email = :email");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $innerStmnt = $db->prepare("CALL generateLeaderboard(:CRN)");
+
+        if(count($rs)){
+            foreach($rs as &$class){
+                $innerStmnt->bindparam(":CRN", $class['CRN']);
+                $innerStmnt->execute();
+                $innerRS = $innerStmnt->fetchAll();
+                $innerStmnt->closeCursor();
+
+                foreach($innerRS as &$rank){
+                    echo '<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ' . $rank['email'] .'
+                    <span>' . $rank['points'] . '</span>
+                </li>';
+                }
+            }
+        }
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
 ?>
