@@ -1,3 +1,16 @@
+<?php
+
+    session_start();
+
+    require('db.php');
+
+    if(isset($_POST['submit'])){
+        addStudentClass($_SESSION['email'], $_POST['CRN']);
+    }
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +28,7 @@
         <a class="navbar-brand " href="studentMainPage.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
-                <a class="btn nav-item nav-link" href="login.php">Sign Out</a>
+                <a class="btn nav-item nav-link" href="./studentMainPage.php">Back</a>
             </div>
         </div>
     </nav>
@@ -24,12 +37,12 @@
             <h1 class="display-5 mb-4">Regester for Course</h1>
         </header>
         <main class="">
-            <form action="">
+            <form action="regestration.php" method="POST">
                 <div>
-                    <input type="number" min="1000" placeholder="Enter CRN">
+                    <input type="number" min="1000" placeholder="Enter CRN" name="CRN">
                 </div>
                 <div class="mt-3">
-                    <input class="btn btn-success" type="submit" value="Register">
+                    <input class="btn btn-success" type="submit" name="submit" value="Register">
                     <a href="./studentMainPage.php" class="btn btn-danger">Cancel</a>
                 </div>
 

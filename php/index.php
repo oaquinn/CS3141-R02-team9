@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php 
+if(isset($_POST['Sign out'])){
+    session_destroy();
+}
+session_start(); 
+?>
 
 
 <html lang="en">

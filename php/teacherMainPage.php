@@ -2,9 +2,7 @@
     session_start();
     require('db.php');
 
-    printGrading($_SESSION['email']);
-
-if(isset($_POST['submit'])){
+if(isset($_POST['uploadSubmit'])){
     if($_POST['crn'] != '' && $_POST['fileName'] != '' & $_POST['url'] != ''){
         if(addAssignment($_POST['crn'], $_POST['fileName'], $_POST['url'], $_SESSION['email'])){
             print "success";
@@ -13,6 +11,19 @@ if(isset($_POST['submit'])){
         }
     }else{
         print "cant enter null";
+    }
+}
+
+if(isset($_POST['gradeSubmit'])){
+    parse_str($_POST['gradeSubmit'], $rs);
+    if($_POST[$rs['name']] != ''){
+        if(gradeAssignment($rs['CRN'], $rs['email'], $_POST[$rs['name']], $rs['name'])){
+            echo 'success';
+        }else{
+            echo 'failure';
+        }
+    }else{
+        echo 'Points cannot be empty';
     }
 }
 
@@ -41,14 +52,15 @@ border-radius: 5px;
         <a class="navbar-brand " href="index.php">Langlearn</a>
         <div class="collapse navbar-collapse ">
             <div class="navbar-nav ml-auto">
-                <a class="btn nav-item nav-link" href="login.php">Sign Out</a>
+                <form action="index.php" method="post">
+                    <input class="btn nav-item nav-link" type="submit" name="Sign Out" value="Sign Out">
+                </form>
             </div>
         </div>
     </nav>
     <div id="page-container" class="container">
         <header class="pb-5 pt-5">
             <h1 class="display-5 mb-4">My Homepage</h1>
-            <a href="Profile Splash.php" class="btn btn-primary btn-lg">My Profile</a>
         </header>
 
         <!--- Source code for To-Do List: https://bbbootstrap.com/snippets/todo-task-list-badges-71324362 -->
@@ -65,51 +77,8 @@ border-radius: 5px;
                                     <div class="ps-content">
                                         <ul class=" list-group list-group-flush">
                                             <?php
+                                                printGrading($_SESSION['email']);
                                             ?>
-
-
-
-
-
-
-
-
-
-                                            <!--
-                                            <li class="list-group-item">
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left mr-2">
-                                                            <div class="custom-checkbox custom-control"> <input class="custom-control-input" id="exampleCustomCheckbox12" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label> </div>
-                                                        </div>
-                                                        <div class="widget-content-left">
-                                                            <div class="widget-heading">Practice tones<div class="badge btn-outline-success">Done</div>
-                                                            </div>
-                                                            <div class="widget-subheading"><i>By Fred</i></div>
-                                                        </div>
-                                                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <div class="todo-indicator bg-focus"></div>
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left mr-2">
-                                                            <div class="custom-checkbox custom-control"><input class="custom-control-input" id="exampleCustomCheckbox1" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label></div>
-                                                        </div>
-                                                        <div class="widget-content-left">
-                                                            <div class="widget-heading">Review 一边。。。一边。。。 sentence structure</div>
-                                                            <div class="widget-subheading">
-                                                                <div>By Zhang<div class="badge badge-pill badge-info ml-2">New</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            -->
                                         </ul>
                                     </div>
                                 </div>
@@ -118,26 +87,6 @@ border-radius: 5px;
                         <div class="d-block text-right card-footer"><button class="mr-2 btn btn-link btn-sm">Cancel</button><button class="btn btn-primary">Add Task</button></div>
                     </div>
                 </div>
-            </div>
-
-            <div id="friends" class="column">
-                <ul class="list-group">
-                    <p></p>
-                    <p></p>
-                    <p style="text-align:center;"><b>Students</b></p>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Fred
-                        <span class="badge badge-primary badge-pill">14</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Samantha
-                        <span class="badge badge-primary badge-pill">2</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Zhang
-                        <span class="badge badge-primary badge-pill">1</span>
-                    </li>
-                </ul>
             </div>
 
 

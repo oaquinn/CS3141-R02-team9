@@ -403,7 +403,22 @@ function printGrading($email){
             if(count($completed)){
                 foreach($completed as &$grade){
                     if($grade['points'] == NULL){
-                        
+                        echo '<li class="list-group-item">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="widget-heading">'. $grade['CRN'] . ': ' . $grade['name'] . '<br><a href="' . $grade['link'] . '">Link to Assignment</a>
+                                    </div>
+                                    <div class="widget-subheading">
+                                        <form action="teacherMainPage.php" method="post">
+                                            <input type="text" name="' . $grade['name'] . '">
+                                            <button type="submit" name="gradeSubmit" value="CRN=' . $grade['CRN'] . '&name=' . $grade['name'] . '&email=' . $grade['email'] . '">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>';
                     }
                 }
             }
@@ -413,6 +428,102 @@ function printGrading($email){
 
     }catch(PDOException $e){
         print "Error: " .  $e->getMessage();
+        return 0;
+    }
+}
+
+function addStudentClass($email, $CRN){
+    try{
+        $db = connect();
+
+        $validCRN = $db->prepare("SELECT COUNT(*) FROM course where CRN = :CRN");
+
+        $validCRN->bindParam(":CRN", $CRN);
+
+        $validCRN->execute();
+
+        $rs = $validCRN->fetchAll();
+
+        $validCRN->closeCursor();
+        
+        if($rs[0]){
+
+            $stmnt = $db->prepare("CALL addStudentClass(:CRN, :email)");
+
+            $stmnt->bindParam(":CRN", $CRN);
+
+            $stmnt->bindParam(":email", $email);
+
+            $stmnt->execute();
+
+            return 1;
+        }
+
+        return 0;
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+
+function generateLeaderboard($email){
+
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("SELECT CRN FROM takes WHERE email = :email");
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->execute();
+
+        $rs = $stmnt->fetchAll();
+
+        $stmnt->closeCursor();
+
+        $innerStmnt = $db->prepare("CALL generateLeaderboard(:CRN)");
+
+        if(count($rs)){
+            foreach($rs as &$class){
+                $innerStmnt->bindparam(":CRN", $class['CRN']);
+                $innerStmnt->execute();
+                $innerRS = $innerStmnt->fetchAll();
+                $innerStmnt->closeCursor();
+
+                foreach($innerRS as &$rank){
+                    echo '<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ' . $rank['email'] .'
+                    <span>' . $rank['points'] . '</span>
+                </li>';
+                }
+            }
+        }
+
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
+        return 0;
+    }
+}
+function gradeAssignment($CRN, $email, $points, $name){
+    try{
+        $db = connect();
+
+        $stmnt = $db->prepare("CALL gradeAssignment(:CRN, :email, :points, :name)");
+
+        $stmnt->bindParam(":CRN", $CRN);
+
+        $stmnt->bindParam(":email", $email);
+
+        $stmnt->bindParam(":points", $points);
+
+        $stmnt->bindParam(":name", $name);
+
+        $stmnt->execute();
+
+        return 1;
+    }catch(PDOException $e){
+        print "Error: " . $e->getMessage();
         return 0;
     }
 }
